@@ -29,33 +29,37 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
         this.switch4 = (Switch) findViewById(R.id.sockets_switch4);
         this.switch5 = (Switch) findViewById(R.id.sockets_switch5);
 
+        // entrance ceiling
         this.switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (switch1.getTag() == null) {
-                    switchSocket(1, isChecked);
-                }
-            }
-        });
-
-        this.switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (switch2.getTag() == null) {
                     switchSocket(2, isChecked);
                 }
             }
         });
 
-        this.switch3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        // entrance infoscreen
+        this.switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (switch3.getTag() == null) {
-                    switchSocket(3, isChecked);
+                if (switch2.getTag() == null) {
+                    switchSocket(7, isChecked);
                 }
             }
         });
 
+        // lamp pole
+        this.switch3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (switch3.getTag() == null) {
+                    switchSocket(5, isChecked);
+                }
+            }
+        });
+
+        // wall spotlight
         this.switch4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -65,6 +69,7 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
             }
         });
 
+        // torch
         this.switch5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
