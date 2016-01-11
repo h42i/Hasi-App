@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity
 
         startService(new Intent(this, ReconnectService.class));
 
-        MqttManager.getInstance().addTopic("hasi/apptest");
+        // testing
+        /*MqttManager.getInstance().addTopic("hasi/apptest");
         MqttManager.getInstance().addCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable throwable) {
@@ -61,8 +62,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 Snackbar.make(findViewById(android.R.id.content),
-                              "Topic: " + topic + ", Message: " + new String(mqttMessage.getPayload()),
-                              Snackbar.LENGTH_LONG)
+                        "Topic: " + topic + ", Message: " + new String(mqttMessage.getPayload()),
+                        Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
 
             }
-        });
+        });*/
     }
 
     @Override
@@ -111,14 +112,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.nav_led_stripes) {
+            Intent myIntent = new Intent(this, LedStripesActivity.class);
+            startActivity(myIntent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

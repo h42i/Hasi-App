@@ -70,6 +70,14 @@ public class MqttManager implements MqttCallback {
     }
 
     public void addTopic(String topic) {
+        if (this.client.isConnected()) {
+            try {
+                this.client.subscribe(topic);
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+        }
+
         this.topics.add(topic);
     }
 

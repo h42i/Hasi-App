@@ -48,7 +48,6 @@ public class ReconnectService extends Service {
 
                         try {
                             MqttManager.getInstance().getClient().connect(connOpts);
-                            client.subscribe("hasi/apptest");
                         } catch (MqttException e) {
                             e.printStackTrace();
                         }
