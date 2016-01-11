@@ -5,6 +5,9 @@
         <item
             android:id="@+id/nav_led_stripes"
             android:title="LED stripes" />
+        <item
+            android:id="@+id/nav_sockets"
+            android:title="Sockets" />
     </group>
 
     <item android:title="Communicate">

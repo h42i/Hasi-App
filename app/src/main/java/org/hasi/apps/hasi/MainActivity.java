@@ -115,6 +115,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_led_stripes) {
             Intent myIntent = new Intent(this, LedStripesActivity.class);
             startActivity(myIntent);
+        } else if (id == R.id.nav_sockets) {
+            Intent myIntent = new Intent(this, SocketsActivity.class);
+            startActivity(myIntent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

@@ -16,11 +16,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.larswerkman.holocolorpicker.SVBar
-        android:id="@+id/led_stripes_svbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
     <com.larswerkman.holocolorpicker.SaturationBar
         android:id="@+id/led_stripes_saturationbar"
         android:layout_width="wrap_content"

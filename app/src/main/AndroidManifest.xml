@@ -10,9 +10,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
-            android:name="org.hasi.apps.hasi.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,13 +20,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="org.hasi.apps.hasi.LedStripesActivity"
+            android:name=".LedStripesActivity"
             android:label="@string/led_stripes_title"
-            android:parentActivityName="org.hasi.apps.hasi.MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SocketsActivity"
+            android:label="@string/sockets_title"
+            android:parentActivityName=".MainActivity" />
 
-        <service android:name="org.hasi.apps.hasi.ReconnectService" />
+        <service android:name=".ReconnectService" />
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package org.hasi.apps.hasi;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LedStripesActivity extends AppCompatActivity implements MqttCallback {
     private ColorPicker picker;
-    private final static int pickerCoolDownTime = 30;
+    private final static int pickerCoolDownTime = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,42 +31,39 @@ public class LedStripesActivity extends AppCompatActivity implements MqttCallbac
 
         this.picker = (ColorPicker) findViewById(R.id.led_stripes_picker);
 
-        SVBar svBar = (SVBar) findViewById(R.id.led_stripes_svbar);
         SaturationBar saturationBar = (SaturationBar) findViewById(R.id.led_stripes_saturationbar);
         ValueBar valueBar = (ValueBar) findViewById(R.id.led_stripes_valuebar);
 
-        this.picker.addSVBar(svBar);
         this.picker.addSaturationBar(saturationBar);
         this.picker.addValueBar(valueBar);
-
-        this.picker.setShowOldCenterColor(false);
 
         MqttManager.getInstance().addTopic("hasi/lights/stripes/set_rgb");
         MqttManager.getInstance().addCallback(this);
 
-        this.picker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener() {
-            boolean taskScheduled = false;
-            ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
-
+        // whysoever this is a little bit slow
+        this.picker.setOnColorSelectedListener(new ColorPicker.OnColorSelectedListener() {
             @Override
-            public void onColorChanged(int color) {
-                if (!taskScheduled) {
-                    MqttMessage message = new MqttMessage(String.format("%05X", color & 0xFFFFFF).getBytes());
+            public void onColorSelected(int color) {
+                new AsyncTask<Integer, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Integer... colors)
+                    {
+                        MqttMessage message = new MqttMessage(String.format("%05X", colors[0] & 0xFFFFFF).getBytes());
 
-                    try {
-                        MqttManager.getInstance().getClient().publish("hasi/lights/stripes/set_rgb", message);
-                    } catch (MqttException e) {
-                        e.printStackTrace();
+                        try {
+                            MqttManager.getInstance().getClient().publish("hasi/lights/stripes/set_rgb", message);
+                        } catch (MqttException e) {
+                            e.printStackTrace();
+                        }
+
+                        return null;
                     }
 
-                    worker.schedule(new Runnable() {
-                        public void run() {
-                            taskScheduled = false;
-                        }
-                    }, pickerCoolDownTime, TimeUnit.MILLISECONDS);
-
-                    taskScheduled = true;
-                }
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                    }
+                }.execute(color);
             }
         });
     }
@@ -75,16 +73,22 @@ public class LedStripesActivity extends AppCompatActivity implements MqttCallbac
     }
 
     @Override
-    public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+    public void messageArrived(String topic, final MqttMessage mqttMessage) throws Exception {
         if (topic.equals("hasi/lights/stripes/set_rgb")) {
-            // not working well
-            /*try {
-                String hexColorString = new String(mqttMessage.getPayload());
-                int color = Integer.parseInt(hexColorString, 16);
-                this.picker.setColor(Color.argb(0xFF, (color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
+            final ColorPicker thisPicker = this.picker;
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String hexColorString = new String(mqttMessage.getPayload());
+                        int color = Integer.parseInt(hexColorString, 16);
+                        thisPicker.setOldCenterColor(Color.argb(0xFF, (color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
     }
 
