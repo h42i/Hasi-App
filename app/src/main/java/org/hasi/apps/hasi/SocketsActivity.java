@@ -18,6 +18,12 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
     private Switch switch4;
     private Switch switch5;
 
+    private final static int switch1RealNum = 2;
+    private final static int switch2RealNum = 7;
+    private final static int switch3RealNum = 5;
+    private final static int switch4RealNum = 1;
+    private final static int switch5RealNum = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +40,7 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (switch1.getTag() == null) {
-                    switchSocket(2, isChecked);
+                    switchSocket(switch1RealNum, isChecked);
                 }
             }
         });
@@ -44,7 +50,7 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (switch2.getTag() == null) {
-                    switchSocket(7, isChecked);
+                    switchSocket(switch2RealNum, isChecked);
                 }
             }
         });
@@ -54,7 +60,7 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (switch3.getTag() == null) {
-                    switchSocket(5, isChecked);
+                    switchSocket(switch3RealNum, isChecked);
                 }
             }
         });
@@ -64,7 +70,7 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (switch4.getTag() == null) {
-                    switchSocket(4, isChecked);
+                    switchSocket(switch4RealNum, isChecked);
                 }
             }
         });
@@ -74,16 +80,16 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (switch5.getTag() == null) {
-                    switchSocket(5, isChecked);
+                    switchSocket(switch5RealNum, isChecked);
                 }
             }
         });
 
-        MqttManager.getInstance().addTopic("hasi/sockets/1/get");
-        MqttManager.getInstance().addTopic("hasi/sockets/2/get");
-        MqttManager.getInstance().addTopic("hasi/sockets/3/get");
-        MqttManager.getInstance().addTopic("hasi/sockets/4/get");
-        MqttManager.getInstance().addTopic("hasi/sockets/5/get");
+        MqttManager.getInstance().addTopic("hasi/sockets/" + switch1RealNum + "/get");
+        MqttManager.getInstance().addTopic("hasi/sockets/" + switch2RealNum + "/get");
+        MqttManager.getInstance().addTopic("hasi/sockets/" + switch3RealNum + "/get");
+        MqttManager.getInstance().addTopic("hasi/sockets/" + switch4RealNum + "/get");
+        MqttManager.getInstance().addTopic("hasi/sockets/" + switch5RealNum + "/get");
 
         MqttManager.getInstance().addCallback(this);
     }
@@ -92,11 +98,11 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
     public void onResume() {
         super.onResume();
 
-        getSocket(1);
-        getSocket(2);
-        getSocket(3);
-        getSocket(4);
-        getSocket(5);
+        getSocket(switch1RealNum);
+        getSocket(switch2RealNum);
+        getSocket(switch3RealNum);
+        getSocket(switch4RealNum);
+        getSocket(switch5RealNum);
     }
 
     private void switchSocket(int socket, boolean on) {
@@ -160,31 +166,31 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
                     System.out.println(on);
 
                     switch (myTopic) {
-                        case "hasi/sockets/1/get":
+                        case "hasi/sockets/" + switch1RealNum + "/get":
                             switch1.setTag("stateInfo");
                             switch1.setChecked(on);
                             switch1.setTag(null);
                             break;
 
-                        case "hasi/sockets/2/get":
+                        case "hasi/sockets/" + switch2RealNum + "/get":
                             switch2.setTag("stateInfo");
                             switch2.setChecked(on);
                             switch2.setTag(null);
                             break;
 
-                        case "hasi/sockets/3/get":
+                        case "hasi/sockets/" + switch3RealNum + "/get":
                             switch3.setTag("stateInfo");
                             switch3.setChecked(on);
                             switch3.setTag(null);
                             break;
 
-                        case "hasi/sockets/4/get":
+                        case "hasi/sockets/" + switch4RealNum + "/get":
                             switch4.setTag("stateInfo");
                             switch4.setChecked(on);
                             switch4.setTag(null);
                             break;
 
-                        case "hasi/sockets/5/get":
+                        case "hasi/sockets/" + switch5RealNum + "/get":
                             switch5.setTag("stateInfo");
                             switch5.setChecked(on);
                             switch5.setTag(null);

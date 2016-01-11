@@ -153,25 +153,25 @@
       <file leaf-file-name="SocketsActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/org/hasi/apps/hasi/SocketsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.08139535">
-              <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
+            <state vertical-scroll-proportion="3.1046512">
+              <caret line="104" column="25" selection-start-line="104" selection-start-column="25" selection-end-line="104" selection-end-column="25" />
               <folding>
-                <element signature="e#1223#1518#0" expanded="true" />
-                <element signature="e#1517#1518#0" expanded="true" />
-                <element signature="e#1601#1896#0" expanded="true" />
-                <element signature="e#1895#1896#0" expanded="true" />
-                <element signature="e#1969#2264#0" expanded="true" />
-                <element signature="e#2263#2264#0" expanded="true" />
-                <element signature="e#2342#2637#0" expanded="true" />
-                <element signature="e#2636#2637#0" expanded="true" />
-                <element signature="e#2706#3001#0" expanded="true" />
-                <element signature="e#3000#3001#0" expanded="true" />
-                <element signature="e#4241#4242#0" expanded="true" />
-                <element signature="e#4299#4300#0" expanded="true" />
-                <element signature="e#4976#4977#0" expanded="true" />
-                <element signature="e#5034#5035#0" expanded="true" />
-                <element signature="e#5364#7000#0" expanded="true" />
-                <element signature="e#6999#7000#0" expanded="true" />
+                <element signature="e#1469#1777#0" expanded="true" />
+                <element signature="e#1776#1777#0" expanded="true" />
+                <element signature="e#1860#2168#0" expanded="true" />
+                <element signature="e#2167#2168#0" expanded="true" />
+                <element signature="e#2241#2549#0" expanded="true" />
+                <element signature="e#2548#2549#0" expanded="true" />
+                <element signature="e#2627#2935#0" expanded="true" />
+                <element signature="e#2934#2935#0" expanded="true" />
+                <element signature="e#3004#3312#0" expanded="true" />
+                <element signature="e#3311#3312#0" expanded="true" />
+                <element signature="e#4722#4723#0" expanded="true" />
+                <element signature="e#4780#4781#0" expanded="true" />
+                <element signature="e#5457#5458#0" expanded="true" />
+                <element signature="e#5515#5516#0" expanded="true" />
+                <element signature="e#5845#7586#0" expanded="true" />
+                <element signature="e#7585#7586#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2253,7 +2253,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40183246" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40183246" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32984293" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2469,25 +2469,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/hasi/apps/hasi/SocketsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.08139535">
-          <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
+        <state vertical-scroll-proportion="3.1046512">
+          <caret line="104" column="25" selection-start-line="104" selection-start-column="25" selection-end-line="104" selection-end-column="25" />
           <folding>
-            <element signature="e#1223#1518#0" expanded="true" />
-            <element signature="e#1517#1518#0" expanded="true" />
-            <element signature="e#1601#1896#0" expanded="true" />
-            <element signature="e#1895#1896#0" expanded="true" />
-            <element signature="e#1969#2264#0" expanded="true" />
-            <element signature="e#2263#2264#0" expanded="true" />
-            <element signature="e#2342#2637#0" expanded="true" />
-            <element signature="e#2636#2637#0" expanded="true" />
-            <element signature="e#2706#3001#0" expanded="true" />
-            <element signature="e#3000#3001#0" expanded="true" />
-            <element signature="e#4241#4242#0" expanded="true" />
-            <element signature="e#4299#4300#0" expanded="true" />
-            <element signature="e#4976#4977#0" expanded="true" />
-            <element signature="e#5034#5035#0" expanded="true" />
-            <element signature="e#5364#7000#0" expanded="true" />
-            <element signature="e#6999#7000#0" expanded="true" />
+            <element signature="e#1469#1777#0" expanded="true" />
+            <element signature="e#1776#1777#0" expanded="true" />
+            <element signature="e#1860#2168#0" expanded="true" />
+            <element signature="e#2167#2168#0" expanded="true" />
+            <element signature="e#2241#2549#0" expanded="true" />
+            <element signature="e#2548#2549#0" expanded="true" />
+            <element signature="e#2627#2935#0" expanded="true" />
+            <element signature="e#2934#2935#0" expanded="true" />
+            <element signature="e#3004#3312#0" expanded="true" />
+            <element signature="e#3311#3312#0" expanded="true" />
+            <element signature="e#4722#4723#0" expanded="true" />
+            <element signature="e#4780#4781#0" expanded="true" />
+            <element signature="e#5457#5458#0" expanded="true" />
+            <element signature="e#5515#5516#0" expanded="true" />
+            <element signature="e#5845#7586#0" expanded="true" />
+            <element signature="e#7585#7586#0" expanded="true" />
           </folding>
         </state>
       </provider>
