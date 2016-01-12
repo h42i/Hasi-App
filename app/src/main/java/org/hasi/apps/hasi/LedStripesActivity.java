@@ -20,7 +20,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class LedStripesActivity extends AppCompatActivity implements MqttCallback {
+public class LedStripesActivity extends AppCompatActivity implements MqttManagerCallback {
     private ColorPicker picker;
     private final static int pickerCoolDownTime = 20;
 
@@ -69,6 +69,11 @@ public class LedStripesActivity extends AppCompatActivity implements MqttCallbac
     }
 
     @Override
+    public void connectionEstablished() {
+
+    }
+
+    @Override
     public void connectionLost(Throwable throwable) {
     }
 
@@ -90,9 +95,5 @@ public class LedStripesActivity extends AppCompatActivity implements MqttCallbac
                 }
             });
         }
-    }
-
-    @Override
-    public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
     }
 }

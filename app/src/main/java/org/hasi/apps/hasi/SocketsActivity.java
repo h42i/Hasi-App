@@ -3,15 +3,13 @@ package org.hasi.apps.hasi;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.*;
 
-public class SocketsActivity extends AppCompatActivity implements MqttCallback {
+public class SocketsActivity extends AppCompatActivity implements MqttManagerCallback {
     private Switch switch1;
     private Switch switch2;
     private Switch switch3;
@@ -93,32 +91,28 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
 
         MqttManager.getInstance().addCallback(this);
 
-        getSocket(switch1RealNum);
-        getSocket(switch2RealNum);
-        getSocket(switch3RealNum);
-        getSocket(switch4RealNum);
-        getSocket(switch5RealNum);
+        getAllSockets();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        getSocket(switch1RealNum);
-        getSocket(switch2RealNum);
-        getSocket(switch3RealNum);
-        getSocket(switch4RealNum);
-        getSocket(switch5RealNum);
+        getAllSockets();
     }
 
     private void switchSocket(int socket, boolean on) {
         new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... params) {
-                MqttMessage message = new MqttMessage((params[1] != 0 ? "on" : "off").getBytes());
-
                 try {
-                    MqttManager.getInstance().getClient().publish("hasi/sockets/" + params[0].toString() + "/set", message);
+                    String topic = "hasi/sockets/" + params[0].toString() + "/set";
+                    MqttMessage message = new MqttMessage((params[1] != 0 ? "on" : "off").getBytes());
+
+                    MqttManager.getInstance().getClient().publish(topic, message);
+
+                    Log.d("Hasi-App", "Turning socket " + params[0].toString() + " " + (params[1] != 0 ? "on" : "off"));
+
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -131,6 +125,14 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
                 super.onPostExecute(aVoid);
             }
         }.execute(socket, on ? 1 : 0);
+    }
+
+    private void getAllSockets() {
+        getSocket(switch1RealNum);
+        getSocket(switch2RealNum);
+        getSocket(switch3RealNum);
+        getSocket(switch4RealNum);
+        getSocket(switch5RealNum);
     }
 
     private void getSocket(int socket) {
@@ -153,6 +155,11 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
                 super.onPostExecute(aVoid);
             }
         }.execute(socket);
+    }
+
+    @Override
+    public void connectionEstablished() {
+        getAllSockets();
     }
 
     @Override
@@ -207,9 +214,5 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
                 }
             }
         });
-    }
-
-    @Override
-    public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
     }
 }
