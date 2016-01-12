@@ -52,6 +52,11 @@ public class MainActivity extends AppCompatActivity
         startService(new Intent(this, ReconnectService.class));
 
         // testing
+        try {
+            MqttManager.getInstance().connect();
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
         /*MqttManager.getInstance().addTopic("hasi/apptest");
         MqttManager.getInstance().addCallback(new MqttCallback() {
             @Override

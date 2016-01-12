@@ -92,6 +92,12 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
         MqttManager.getInstance().addTopic("hasi/sockets/" + switch5RealNum + "/get");
 
         MqttManager.getInstance().addCallback(this);
+
+        getSocket(switch1RealNum);
+        getSocket(switch2RealNum);
+        getSocket(switch3RealNum);
+        getSocket(switch4RealNum);
+        getSocket(switch5RealNum);
     }
 
     @Override
