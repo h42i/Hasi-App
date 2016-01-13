@@ -1,6 +1,7 @@
 package org.hasi.apps.hasi;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.*;
@@ -34,25 +35,19 @@ public class MqttManager implements MqttCallback {
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(true);
 
-        try {
-            this.client.connect(connOpts);
-        } catch (MqttException e) {
-            System.err.println("Error: Can't connect to " + broker);
-        }
-
-        for (String topic : this.topics) {
-            this.client.subscribe(topic);
-        }
-
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                while (!client.isConnected()) {
+                int counter = 0;
+
+                while (!client.isConnected() && counter < 240) {
                     try {
                         Thread.sleep(500, 0);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
+                    counter++;
                 }
 
                 for (MqttManagerCallback callback : callbacks) {
@@ -62,6 +57,18 @@ public class MqttManager implements MqttCallback {
                 return null;
             }
         }.execute();
+
+        try {
+            Log.d("Hasi-App", "Trying to connect to the broker (" + broker + ")");
+
+            this.client.connect(connOpts);
+        } catch (MqttException e) {
+            Log.e("Hasi-App", "Error: Can't connect to " + broker);
+        }
+
+        for (String topic : this.topics) {
+            this.client.subscribe(topic);
+        }
     }
 
     public void disconnect() throws MqttException {

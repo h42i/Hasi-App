@@ -2,37 +2,31 @@ package org.hasi.apps.hasi;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.OpacityBar;
-import com.larswerkman.holocolorpicker.SVBar;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-public class LedStripesActivity extends AppCompatActivity implements MqttManagerCallback {
+public class LedStripesFragment extends Fragment implements MqttManagerCallback {
     private ColorPicker picker;
     private final static int pickerCoolDownTime = 20;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_led_stripes);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.led_stripes_fragment, container, false);
 
-        this.picker = (ColorPicker) findViewById(R.id.led_stripes_picker);
+        this.picker = (ColorPicker) view.findViewById(R.id.led_stripes_picker);
 
-        SaturationBar saturationBar = (SaturationBar) findViewById(R.id.led_stripes_saturationbar);
-        ValueBar valueBar = (ValueBar) findViewById(R.id.led_stripes_valuebar);
+        SaturationBar saturationBar = (SaturationBar) view.findViewById(R.id.led_stripes_saturationbar);
+        ValueBar valueBar = (ValueBar) view.findViewById(R.id.led_stripes_valuebar);
 
         this.picker.addSaturationBar(saturationBar);
         this.picker.addValueBar(valueBar);
@@ -66,6 +60,8 @@ public class LedStripesActivity extends AppCompatActivity implements MqttManager
                 }.execute(color);
             }
         });
+
+        return view;
     }
 
     @Override
@@ -82,18 +78,20 @@ public class LedStripesActivity extends AppCompatActivity implements MqttManager
         if (topic.equals("hasi/lights/stripes/set_rgb")) {
             final ColorPicker thisPicker = this.picker;
 
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        String hexColorString = new String(mqttMessage.getPayload());
-                        int color = Integer.parseInt(hexColorString, 16);
-                        thisPicker.setOldCenterColor(Color.argb(0xFF, (color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF));
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            String hexColorString = new String(mqttMessage.getPayload());
+                            int color = Integer.parseInt(hexColorString, 16);
+                            thisPicker.setOldCenterColor(Color.argb(0xFF, (color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 }

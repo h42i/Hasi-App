@@ -7,4 +7,7 @@
     <string name="action_settings">Settings</string>
     <string name="led_stripes_title">LED stripes</string>
     <string name="sockets_title">Sockets</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

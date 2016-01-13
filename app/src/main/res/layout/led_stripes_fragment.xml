@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context="org.hasi.apps.hasi.LedStripesActivity">
+    tools:context=".LedStripesFragment">
 
     <com.larswerkman.holocolorpicker.ColorPicker
         android:id="@+id/led_stripes_picker"
