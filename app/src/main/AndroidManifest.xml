@@ -21,11 +21,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LedStripesActivity"
+            android:name=".LedStripesFragment"
             android:label="@string/led_stripes_title"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".SocketsActivity"
+            android:name=".SocketsFragment"
             android:label="@string/sockets_title"
             android:parentActivityName=".MainActivity" />
 

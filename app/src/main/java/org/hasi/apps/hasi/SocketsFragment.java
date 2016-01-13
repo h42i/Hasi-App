@@ -1,17 +1,18 @@
 package org.hasi.apps.hasi;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.*;
 
-public class SocketsActivity extends AppCompatActivity implements MqttCallback {
+public class SocketsFragment extends Fragment implements MqttManagerCallback {
     private Switch switch1;
     private Switch switch2;
     private Switch switch3;
@@ -20,20 +21,19 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
 
     private final static int switch1RealNum = 2;
     private final static int switch2RealNum = 7;
-    private final static int switch3RealNum = 5;
-    private final static int switch4RealNum = 1;
+    private final static int switch3RealNum = 4;
+    private final static int switch4RealNum = 5;
     private final static int switch5RealNum = 3;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sockets);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.sockets_fragment, container, false);
 
-        this.switch1 = (Switch) findViewById(R.id.sockets_switch1);
-        this.switch2 = (Switch) findViewById(R.id.sockets_switch2);
-        this.switch3 = (Switch) findViewById(R.id.sockets_switch3);
-        this.switch4 = (Switch) findViewById(R.id.sockets_switch4);
-        this.switch5 = (Switch) findViewById(R.id.sockets_switch5);
+        this.switch1 = (Switch) view.findViewById(R.id.sockets_switch1);
+        this.switch2 = (Switch) view.findViewById(R.id.sockets_switch2);
+        this.switch3 = (Switch) view.findViewById(R.id.sockets_switch3);
+        this.switch4 = (Switch) view.findViewById(R.id.sockets_switch4);
+        this.switch5 = (Switch) view.findViewById(R.id.sockets_switch5);
 
         // entrance ceiling
         this.switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -93,32 +93,30 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
 
         MqttManager.getInstance().addCallback(this);
 
-        getSocket(switch1RealNum);
-        getSocket(switch2RealNum);
-        getSocket(switch3RealNum);
-        getSocket(switch4RealNum);
-        getSocket(switch5RealNum);
+        getAllSockets();
+
+        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        getSocket(switch1RealNum);
-        getSocket(switch2RealNum);
-        getSocket(switch3RealNum);
-        getSocket(switch4RealNum);
-        getSocket(switch5RealNum);
+        getAllSockets();
     }
 
     private void switchSocket(int socket, boolean on) {
         new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... params) {
-                MqttMessage message = new MqttMessage((params[1] != 0 ? "on" : "off").getBytes());
-
                 try {
-                    MqttManager.getInstance().getClient().publish("hasi/sockets/" + params[0].toString() + "/set", message);
+                    String topic = "hasi/sockets/" + params[0].toString() + "/set";
+                    MqttMessage message = new MqttMessage((params[1] != 0 ? "on" : "off").getBytes());
+
+                    MqttManager.getInstance().getClient().publish(topic, message);
+
+                    Log.d("Hasi-App", "Turning socket " + params[0].toString() + " " + (params[1] != 0 ? "on" : "off"));
+
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -133,26 +131,41 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
         }.execute(socket, on ? 1 : 0);
     }
 
-    private void getSocket(int socket) {
-        new AsyncTask<Integer, Void, Void>() {
-            @Override
-            protected Void doInBackground(Integer... params) {
-                MqttMessage message = new MqttMessage("tellmeyourstate".getBytes());
+    private void getAllSockets() {
+        getSocket(switch1RealNum);
+        getSocket(switch2RealNum);
+        getSocket(switch3RealNum);
+        getSocket(switch4RealNum);
+        getSocket(switch5RealNum);
+    }
 
-                try {
-                    MqttManager.getInstance().getClient().publish("hasi/sockets/" + params[0].toString() + "/set", message);
-                } catch (MqttException e) {
-                    e.printStackTrace();
+    private void getSocket(int socket) {
+        if (MqttManager.getInstance().getClient().isConnected()) {
+            new AsyncTask<Integer, Void, Void>() {
+                @Override
+                protected Void doInBackground(Integer... params) {
+                    MqttMessage message = new MqttMessage("tellmeyourstate".getBytes());
+
+                    try {
+                        MqttManager.getInstance().getClient().publish("hasi/sockets/" + params[0].toString() + "/set", message);
+                    } catch (MqttException e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
                 }
 
-                return null;
-            }
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                }
+            }.execute(socket);
+        }
+    }
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-            }
-        }.execute(socket);
+    @Override
+    public void connectionEstablished() {
+        getAllSockets();
     }
 
     @Override
@@ -164,12 +177,11 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
         final String myTopic = topic;
         final MqttMessage myMQTTMessage = mqttMessage;
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
                     boolean on = new String(myMQTTMessage.getPayload()).equals("on");
-                    System.out.println(on);
 
                     switch (myTopic) {
                         case "hasi/sockets/" + switch1RealNum + "/get":
@@ -202,14 +214,8 @@ public class SocketsActivity extends AppCompatActivity implements MqttCallback {
                             switch5.setTag(null);
                             break;
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-        });
-    }
-
-    @Override
-    public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+            });
+        }
     }
 }

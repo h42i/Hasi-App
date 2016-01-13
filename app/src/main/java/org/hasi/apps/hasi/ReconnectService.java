@@ -9,11 +9,12 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ReconnectService extends Service {
-    public static final long NOTIFY_INTERVAL = 10 * 1000;
+    public static final long NOTIFY_INTERVAL = 5 * 1000;
 
     private Handler handler = new Handler();
     private Timer timer = null;
@@ -43,13 +44,10 @@ public class ReconnectService extends Service {
                     MqttClient client = MqttManager.getInstance().getClient();
 
                     if (!client.isConnected()) {
-                        MqttConnectOptions connOpts = new MqttConnectOptions();
-                        connOpts.setCleanSession(true);
-
                         try {
-                            MqttManager.getInstance().getClient().connect(connOpts);
+                            MqttManager.getInstance().connect();
                         } catch (MqttException e) {
-                            e.printStackTrace();
+                            System.err.println("Error: Can't connect to " + MqttManager.getInstance().getBroker());
                         }
                     }
                 }

@@ -1,14 +1,13 @@
 package org.hasi.apps.hasi;
 
+import android.os.AsyncTask;
+import android.util.Log;
+
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.*;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.Random;
 
 public class MqttManager implements MqttCallback {
     private static MqttManager instance = null;
@@ -19,14 +18,14 @@ public class MqttManager implements MqttCallback {
     private MemoryPersistence persistence;
     private MqttClient client;
 
-    private ArrayList<MqttCallback> callbacks;
+    private ArrayList<MqttManagerCallback> callbacks;
     private ArrayList<String> topics;
 
     private MqttManager() throws MqttException {
         this.persistence = new MemoryPersistence();
-        this.client = new MqttClient(broker, "testClient", persistence);
+        this.client = new MqttClient(broker, "Hasi-App-MQTT-" + new Random().nextInt(), persistence);
 
-        this.callbacks = new ArrayList<MqttCallback>();
+        this.callbacks = new ArrayList<MqttManagerCallback>();
         this.topics = new ArrayList<String>();
 
         this.client.setCallback(this);
@@ -36,7 +35,36 @@ public class MqttManager implements MqttCallback {
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(true);
 
-        this.client.connect(connOpts);
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                int counter = 0;
+
+                while (!client.isConnected() && counter < 240) {
+                    try {
+                        Thread.sleep(500, 0);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    counter++;
+                }
+
+                for (MqttManagerCallback callback : callbacks) {
+                    callback.connectionEstablished();
+                }
+
+                return null;
+            }
+        }.execute();
+
+        try {
+            Log.d("Hasi-App", "Trying to connect to the broker (" + broker + ")");
+
+            this.client.connect(connOpts);
+        } catch (MqttException e) {
+            Log.e("Hasi-App", "Error: Can't connect to " + broker);
+        }
 
         for (String topic : this.topics) {
             this.client.subscribe(topic);
@@ -49,6 +77,10 @@ public class MqttManager implements MqttCallback {
 
     public MqttClient getClient() {
         return this.client;
+    }
+
+    public static String getBroker() {
+        return broker;
     }
 
     public static MqttManager getInstance() {
@@ -65,8 +97,8 @@ public class MqttManager implements MqttCallback {
         return instance;
     }
 
-    public void addCallback(MqttCallback mqttCallback) {
-        this.callbacks.add(mqttCallback);
+    public void addCallback(MqttManagerCallback mqttManagerCallback) {
+        this.callbacks.add(mqttManagerCallback);
     }
 
     public void addTopic(String topic) {
@@ -83,22 +115,19 @@ public class MqttManager implements MqttCallback {
 
     @Override
     public void connectionLost(Throwable throwable) {
-        for (MqttCallback callback : this.callbacks) {
+        for (MqttManagerCallback callback : this.callbacks) {
             callback.connectionLost(throwable);
         }
     }
 
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-        for (MqttCallback callback : this.callbacks) {
+        for (MqttManagerCallback callback : this.callbacks) {
             callback.messageArrived(topic, mqttMessage);
         }
     }
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-        for (MqttCallback callback : this.callbacks) {
-            callback.deliveryComplete(iMqttDeliveryToken);
-        }
     }
 }
