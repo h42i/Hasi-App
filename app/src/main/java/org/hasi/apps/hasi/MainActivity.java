@@ -41,32 +41,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         startService(new Intent(this, ReconnectService.class));
 
-        // testing
-        /*try {
-            MqttManager.getInstance().connect();
-        } catch (MqttException e) {
+        try {
+            Fragment fragment = (Fragment) DashboardFragment.class.newInstance();
+            
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fl_content, fragment).commit();
+        } catch (Exception e) {
             e.printStackTrace();
-        }*/
-        /*MqttManager.getInstance().addTopic("hasi/apptest");
-        MqttManager.getInstance().addCallback(new MqttCallback() {
-            @Override
-            public void connectionLost(Throwable throwable) {
-
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                Snackbar.make(findViewById(android.R.id.content),
-                        "Topic: " + topic + ", Message: " + new String(mqttMessage.getPayload()),
-                        Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-
-            }
-        });*/
+        }
     }
 
     @Override
