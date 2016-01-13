@@ -34,7 +34,11 @@ public class MqttManager implements MqttCallback {
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(true);
 
-        this.client.connect(connOpts);
+        try {
+            this.client.connect(connOpts);
+        } catch (MqttException e) {
+            System.err.println("Error: Can't connect to " + broker);
+        }
 
         for (String topic : this.topics) {
             this.client.subscribe(topic);
@@ -66,6 +70,10 @@ public class MqttManager implements MqttCallback {
 
     public MqttClient getClient() {
         return this.client;
+    }
+
+    public static String getBroker() {
+        return broker;
     }
 
     public static MqttManager getInstance() {

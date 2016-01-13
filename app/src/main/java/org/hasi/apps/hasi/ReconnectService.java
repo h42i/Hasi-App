@@ -47,7 +47,7 @@ public class ReconnectService extends Service {
                         try {
                             MqttManager.getInstance().connect();
                         } catch (MqttException e) {
-                            e.printStackTrace();
+                            System.err.println("Error: Can't connect to " + MqttManager.getInstance().getBroker());
                         }
                     }
                 }
