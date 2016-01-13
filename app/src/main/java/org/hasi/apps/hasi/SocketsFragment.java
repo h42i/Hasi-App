@@ -21,8 +21,8 @@ public class SocketsFragment extends Fragment implements MqttManagerCallback {
 
     private final static int switch1RealNum = 2;
     private final static int switch2RealNum = 7;
-    private final static int switch3RealNum = 5;
-    private final static int switch4RealNum = 1;
+    private final static int switch3RealNum = 4;
+    private final static int switch4RealNum = 5;
     private final static int switch5RealNum = 3;
 
     @Override

@@ -35,7 +35,7 @@
     <Switch
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Wall spotlight"
+        android:text="Blinkinvader"
         android:id="@+id/sockets_switch4"
         android:height="56dp" />
 
