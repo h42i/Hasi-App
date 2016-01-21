@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Class fragmentClass;
         switch(menuItem.getItemId()) {
-            case R.id.dashboard_activity:
+            case R.id.dashboard_fragment:
                 fragmentClass = DashboardFragment.class;
                 break;
 
@@ -100,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_sockets:
                 fragmentClass = SocketsFragment.class;
+                break;
+
+            case R.id.nav_bus:
+                fragmentClass = BusFragment.class;
                 break;
 
             default:

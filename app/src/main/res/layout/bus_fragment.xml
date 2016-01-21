@@ -11,7 +11,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="org.hasi.apps.hasi.MainActivity"
     tools:showIn="@layout/app_bar_main"
-    android:id="@+id/dashboard_fragment">
+    android:id="@+id/bus_fragment">
 
     <TextView
         android:layout_width="wrap_content"
