@@ -9,6 +9,8 @@
     <string name="sockets_title">Sockets</string>
 
     <string name="update">Update</string>
+    <string name="bus_title">Busconnection</string>
+    <string name="dashboard_title">Dashboard</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

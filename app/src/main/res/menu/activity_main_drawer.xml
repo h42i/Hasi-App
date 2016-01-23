@@ -4,16 +4,16 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_dashboard"
-            android:title="Dashboard" />
+            android:title="@string/dashboard_title" />
         <item
             android:id="@+id/nav_bus"
-            android:title="Busverbindung" />
+            android:title="@string/bus_title" />
         <item
             android:id="@+id/nav_led_stripes"
-            android:title="LED stripes" />
+            android:title="@string/led_stripes_title" />
         <item
             android:id="@+id/nav_sockets"
-            android:title="Sockets" />
+            android:title="@string/sockets_title" />
     </group>
 
     <item android:title="Communicate">
