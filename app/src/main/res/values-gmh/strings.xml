@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="led_stripes_title">LED-Streifen</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="navigation_drawer_close">Navigation schließen</string>
+    <string name="navigation_drawer_open">Navigation öffnen</string>
+    <string name="update">Aktualisieren</string>
+    <string name="sockets_title">Funksteckdosen</string>
+</resources>
